@@ -1,0 +1,16 @@
+/* 改变主题色变量 */
+$--color-primary: #321fdb;
+// $--border-color-extra-light: #000000;
+// $--border-color-base: #000000;
+// $--border-color-light: #000000;
+$--table-border-color:#d8dbe0;
+$--table-border: 2px solid $--table-border-color !default;
+
+// $--border-color: 2px solid #000000;
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+@import "~element-ui/packages/theme-chalk/src/index";
+.el-card {
+    border: none
+}

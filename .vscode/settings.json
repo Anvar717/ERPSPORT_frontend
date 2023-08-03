@@ -1,0 +1,45 @@
+{
+    "liveServer.settings.multiRootWorkspaceName": "edufront",
+    "editor.formatOnType": true,
+    "editor.mouseWheelZoom": true,
+    "jest.jestCommandLine": "vscode:\\vscode.github-authentication\\did-authenticate?windowid=1&code=b08452ce4d51877301bd&state=04eb662e-7b22-4d27-b669-63637e331563",
+    "i18n-ally.localesPaths": [
+        "src/lang"
+    ],
+    "vue.inlayHints.optionsWrapper": false,
+    "cSpell.words": [
+        "Compet",
+        "detailinfo",
+        "docdate",
+        "docnumber",
+        "eduprocess",
+        "fromyear",
+        "gradeid",
+        "ihmovement",
+        "organizationid",
+        "organizationname",
+        "ownerid",
+        "schoolgradeid",
+        "schoolgradename",
+        "schoolsubjectid",
+        "schoolsubjectname",
+        "schoolyearid",
+        "schoolyearname",
+        "sportmantypeid",
+        "sporttypeid",
+        "statusid",
+        "statusname",
+        "toyear",
+        "vuex",
+        "yearid"
+    ]
+
+}
+  "liveServer.settings.multiRootWorkspaceName": "edufront",
+  "editor.formatOnType": true,
+  "editor.mouseWheelZoom": true,
+  "jest.jestCommandLine": "vscode:\\vscode.github-authentication\\did-authenticate?windowid=1&code=b08452ce4d51877301bd&state=04eb662e-7b22-4d27-b669-63637e331563",
+  "i18n-ally.localesPaths": ["src/lang"],
+  "vue.codeActions.enabled": false
+}
+

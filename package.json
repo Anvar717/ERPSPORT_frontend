@@ -1,0 +1,98 @@
+{
+  "name": "eduerp",
+  "version": "1.0.0",
+  "description": "Open Source Bootstrap Admin Template",
+  "author": {
+    "name": "CoreUI",
+    "url": "https://coreui.io",
+    "github": "https://github.com/coreui",
+    "twitter": "https://twitter.com/core_ui"
+  },
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "test:unit": "vue-cli-service test:unit",
+    "test:e2e": "vue-cli-service test:e2e",
+    "lint": "vue-cli-service lint",
+    "clearCache": "jest --clearCache",
+    "release": "npm-run-all clearCache lint build test:unit test:e2e"
+  },
+  "dependencies": {
+    "@casl/ability": "^4.0.4",
+    "@casl/vue": "^1.0.2",
+    "@coreui/coreui": "~3.0.0",
+    "@coreui/icons": "^1.0.1",
+    "@coreui/utils": "~1.2.2",
+    "@coreui/vue": "~3.0.0",
+    "apexcharts": "^3.23.0",
+    "axios": "^0.19.2",
+    "babel-runtime": "^6.26.0",
+    "bootstrap-vue": "^2.21.2",
+    "di-vue-mask": "^1.1.0",
+    "element-ui": "^2.15.13",
+    "html2pdf.js": "^0.9.3",
+    "jsbarcode": "^3.11.5",
+    "material-icons": "^0.3.1",
+    "qrcode.vue": "^1.7.0",
+    "radium": "^0.26.2",
+    "register-service-worker": "^1.7.1",
+    "text-mask-addons": "^3.8.0",
+    "v-mask": "^2.2.4",
+    "vee-validate": "^3.2.5",
+    "vue-apexcharts": "^1.6.0",
+    "vue-axios": "^2.1.5",
+    "vue-cookies": "^1.7.0",
+    "vue-currency-filter": "^5.0.1",
+    "vue-currency-input": "^1.18.1",
+    "vue-form-wizard": "^0.8.4",
+    "vue-i18n": "^8.15.5",
+    "vue-router": "~3.1.5",
+    "vue-select": "3.11.0",
+    "vue2-datepicker": "^3.5.0",
+    "vue2-google-maps": "^0.10.7",
+    "vuesax": "^3.12.2",
+    "vuex": "~3.1.2",
+    "workbox-webpack-plugin": "^5.1.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.3",
+    "@vue/cli-plugin-babel": "^4.4.5",
+    "@vue/cli-plugin-e2e-nightwatch": "^4.4.5",
+    "@vue/cli-plugin-eslint": "^4.4.5",
+    "@vue/cli-plugin-pwa": "^4.4.6",
+    "@vue/cli-plugin-unit-jest": "^4.4.5",
+    "@vue/cli-service": "^4.5.19",
+    "@vue/test-utils": "^1.0.3",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.0.1",
+    "babel-plugin-component": "^1.1.1",
+    "chromedriver": "^112.0.0",
+    "core-js": "3.6.5",
+    "eslint": "^7.3.0",
+    "eslint-plugin-vue": "^6.2.2",
+    "npm-run-all": "^4.1.5",
+    "sass": "^1.53.0",
+    "sass-loader": "^8.0.2",
+    "vue": "^2.6.12",
+    "vue-template-compiler": "2.6.14",
+    "workbox-cli": "^5.1.3"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 9"
+  ],
+  "contributors": [
+    {
+      "name": "CoreUI Team",
+      "url": "https://github.com/orgs/coreui/people"
+    }
+  ],
+  "copyright": "Copyright 2020 creativeLabs Łukasz Holeczek",
+  "engines": {
+    "node": ">= 8.10.x",
+    "npm": ">= 5.6.0"
+  },
+  "homepage": "http://coreui.io",
+  "license": "MIT"
+}

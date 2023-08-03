@@ -1,0 +1,486 @@
+<template>
+    <CRow>
+        <CCol sm="12" md="12">
+            <CCard accent-color="primary">
+                <b-row class="mt-3 mx-1">
+                    <b-col class="text-center">
+                        <h3>{{ $t("GetReportAthleticAchievement") }}</h3>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col class="text-right">
+                        <CButton color="danger" class="float-sm-right mr-2" @click="$router.push('/')" size="sm">
+                            <b-icon icon="arrow-left-short"></b-icon>
+
+                            {{ $t("back") }}
+                        </CButton>
+                        <CButton color="primary" class="float-sm-right mr-2" @click="Refresh" size="sm">
+                            <b-icon icon="arrow-repeat"></b-icon>
+
+                            {{ $t("Refresh") }}
+                        </CButton>
+                        <!-- <CButton color="primary" class="float-sm-right mr-2" @click="Print" size="sm">
+                            <b-spinner v-if="PrintLoading" small></b-spinner>
+                            <b-icon v-if="!PrintLoading" icon="printer"></b-icon>
+                            {{ $t("Print") }}
+                        </CButton> -->
+                    </b-col>
+                </b-row>
+
+                <CCardHeader>
+                    <!-- <CRow class="form-group">
+              <CCol  class="d-flex mt-2">
+                <v-select
+                  :options="SchoolYearList"
+                  v-model="filter.schoolyearid"
+                  :reduce="item => item.id"
+                  :placeholder="$t('SchoolYear')"
+                  class="mr-2"
+                  label="name"
+                  style="width:100%"
+                  ></v-select>
+                  <v-select
+                      :options="OblastList"
+                      v-model="filter.oblastid"
+                      :reduce="item => item.id"
+                      :placeholder="$t('oblast')"
+                      label="name"
+                      class="mr-2"
+                      style="width:100%"
+                      @input="ChangeOblast"
+                  ></v-select>
+                  <v-select
+                      :options="RegionList"
+                      v-model="filter.regionid"
+                      :reduce="item => item.id"
+                      :placeholder="$t('region')"
+                      label="name"
+                      class="mr-2"
+                      style="width:100%"
+                      @input="ChangeRegion"
+                    ></v-select>
+                    <v-select
+                      :options="OrganizationList"
+                      v-model="filter.organizationid"
+                      :reduce="item => item.id"
+                      :placeholder="$t('organization')"
+                      label="name"
+                      style="width:100%"
+                      class="mr-2"
+                    ></v-select>
+                    <div>
+                        <b-button @click="FilterFunc" variant="primary"> {{ $t('search') }} </b-button>
+                    </div>
+              </CCol>
+            </CRow> -->
+                    <CRow class="form-group">
+                        <CCol>
+                            <h4 class="region-text">
+                                <a href="javascript:void(0)" @click="topcountrychange">{{
+                                    $t("O`zbekiston")
+                                }}</a>
+                                <a href="javascript:void(0)" @click="topoblastchange">{{
+                                    filter.OblastName
+                                }}</a>
+                                <a href="javascript:void(0)">{{ filter.RegionName }}</a>
+                            </h4>
+                        </CCol>
+                    </CRow>
+                </CCardHeader>
+
+                <CCardBody>
+                    <b-table-simple class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th rowspan="3" v-if="filter.oblastid === 0 || filter.oblastid === null"
+                                    style="text-align: center; vertical-align: middle">
+                                    <!-- Ҳудуд спорт таълим муассасалари -->
+                                    {{ $t("sportPlaceName") }}
+                                </th>
+                                <th rowspan="3" v-if="
+                                    filter.oblastid > 0 &&
+                                    (filter.regionid === 0 || filter.regionid === null) &&
+                                    !filter.byschool
+                                " style="text-align: center; vertical-align: middle">
+                                    {{ $t("regionname") }}
+                                </th>
+                                <th rowspan="2" v-if="filter.oblastid > 0 && filter.regionid > 0"
+                                    style="text-align: center; vertical-align: middle">
+                                    {{ $t("organizationname") }}
+                                </th>
+                                <!-- <th
+                    rowspan="3"
+                    v-if="filter.oblastid > 0 && filter.regionid > 0"
+                    style="text-align: center; vertical-align: middle"
+                  >
+                    {{ $t("organizationname") }}
+                  </th> -->
+                            </tr>
+
+                            <tr>
+
+                                <th style="text-align: center; vertical-align: middle">
+                                    {{ $t("sportsmencount") }}
+                                </th>
+                                <th style="text-align: center; vertical-align: middle">
+                                    {{ $t("athleticachievementcount") }}
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody v-if="!Loading">
+                            <tr v-for="(item, i) in items" style="text-align: center; vertical-align: middle" :key="i">
+                                <td v-if="filter.oblastid === 0 || filter.oblastid === null"
+                                    style="text-align: left; vertical-align: middle">
+                                    <a href="javascript:void(0)" @click="oblastchange(item)">{{
+                                        item.oblastname
+                                    }}</a>
+                                </td>
+                                <td v-if="
+                                    filter.oblastid > 0 &&
+                                    (filter.regionid === 0 || filter.regionid === null) &&
+                                    !filter.byschool
+                                " style="text-align: left; vertical-align: middle">
+                                    <a href="javascript:void(0)" @click="regionchange(item)">{{
+                                        item.regionname
+                                    }}</a>
+                                </td>
+                                <td v-if="filter.oblastid > 0 && filter.regionid > 0"
+                                    style="text-align: left; vertical-align: middle">
+                                    <a href="javascript:void(0)">{{ item.organizationname }}</a>
+                                </td>
+
+                                <td class="text-right">
+                                    {{
+                                        $options.filters.currency(item.sportsmencount, {
+                                            symbol: "",
+                                            fractionCount: 0,
+                                        })
+                                    }}
+                                </td>
+                                <td class="text-right">
+                                    {{
+                                        $options.filters.currency(item.athleticachievementcount, {
+                                            symbol: "",
+                                            fractionCount: 0,
+                                        })
+                                    }}
+                                </td>
+                            </tr>
+                            <tr style="
+                                                                                            text-align: center;
+                                                                                            vertical-align: middle;
+                                                                                            font-weight: bold;
+                                                                                          ">
+                                <td>{{ $t("Total") }}</td>
+                                
+                                <td class="text-right">
+                                    {{
+                                        bottomrow.sportsmencount == 0
+                                        ? "-"
+                                        : $options.filters.currency(bottomrow.sportsmencount, {
+                                            symbol: "",
+                                            fractionCount: 0,
+                                        })
+                                    }}
+                                </td>
+                                <td class="text-right">
+                                    {{
+                                        bottomrow.athleticachievementcount == 0
+                                        ? "-"
+                                        : $options.filters.currency(bottomrow.athleticachievementcount, {
+                                            symbol: "",
+                                            fractionCount: 0,
+                                        })
+                                    }}
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody v-if="Loading">
+                            <tr>
+                                <td class="text-center" colspan="19">
+                                    <b-spinner></b-spinner>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </b-table-simple>
+                </CCardBody>
+            </CCard>
+        </CCol>
+    </CRow>
+</template>
+<script>
+import SportReportService from "@/services/SportReport.service";
+// import SchoolYearService from "@/services/SchoolYear.service";
+// import OblastService from "@/services/Oblast.service";
+import RegionService from "@/services/Region.service";
+import OrganizationService from "@/services/organization.service";
+import {
+    BRow,
+    BCol,
+    BCard,
+    BButton,
+    BSpinner,
+    BTabs,
+    BTab,
+    BCardText,
+    BModal,
+    BListGroup,
+    BListGroupItem,
+    BTable,
+    BSidebar,
+    BOverlay,
+    BBadge,
+    BFormInput,
+} from "bootstrap-vue";
+export default {
+    components: {
+        BRow,
+        BCol,
+        BCard,
+        BButton,
+        BSpinner,
+        BTabs,
+        BTab,
+        BListGroup,
+        BListGroupItem,
+        BCardText,
+        BTable,
+        BSidebar,
+        BModal,
+        BBadge,
+        BOverlay,
+        BFormInput,
+    },
+    data() {
+        return {
+            items: [],
+            totalRows: "",
+            Loading: false,
+            filter: {
+                SortColumn: "",
+                OrderType: "asc",
+                PageNumber: 1,
+                PageLimit: 20,
+                pageOptions: [5, 10, 15, 20, 25, 50, 100],
+                SortIcon: "arrow-up",
+                oblastid: 0,
+                regionid: 0,
+                organizationid: 0,
+                schoolyearid: 0,
+                OblastName: "",
+                RegionName: "",
+            },
+            bottomrow: {
+                doctabcount: 0,
+                doctabsum: 0,
+            },
+            SchoolYearList: [],
+            OblastList: [],
+            RegionList: [],
+            OrganizationList: [],
+            // PrintLoading: false,
+            lang: localStorage.getItem("locale") || "ru",
+        };
+    },
+    created() {
+        // SchoolYearService.GetAll().then(res => {
+        //     this.SchoolYearList = res.data
+        // })
+        // OblastService.GetAll().then(res => {
+        //     this.OblastList = res.data
+        // })
+        this.Refresh();
+    },
+    computed: {
+        firstNumber() {
+            return this.totalRows > 0
+                ? (this.filter.PageNumber - 1) * this.filter.PageLimit + 1
+                : 0;
+        },
+        lastNumber() {
+            if (this.totalRows < this.filter.PageLimit) {
+                return this.totalRows;
+            } else {
+                if (this.filter.PageNumber * this.filter.PageLimit > this.totalRows) {
+                    return this.totalRows;
+                } else {
+                    return this.filter.PageNumber * this.filter.PageLimit;
+                }
+            }
+        },
+    },
+    methods: {
+        FilterFunc() {
+            if (
+                this.filter.schoolyearid === null ||
+                this.filter.schoolyearid === "" ||
+                this.filter.schoolyearid === undefined ||
+                this.filter.schoolyearid === 0
+            ) {
+                this.makeToast(
+                    this.$t("schoolyearNotSelected"),
+                    this.$t("error"),
+                    "danger"
+                );
+                return false;
+            }
+            this.Refresh();
+        },
+        ChangeOblast() {
+            if (!!this.filter.oblastid) {
+                RegionService.GetAll(this.lang, this.filter.oblastid).then((res) => {
+                    this.RegionList = res.data;
+                });
+            }
+        },
+        ChangeRegion() {
+            if (!!this.filter.regionid) {
+                OrganizationService.GetAll(
+                    this.filter.oblastid,
+                    this.filter.regionid,
+                    false
+                ).then((res) => {
+                    this.OrganizationList = res.data;
+                });
+            }
+        },
+        Search() {
+            if (this.filter.PageNumber !== 1) {
+                this.filter.PageNumber = 1;
+            } else {
+                this.Refresh();
+            }
+        },
+        Refresh() {
+            this.Loading = true;
+            SportReportService.GetReportAthleticAchievement(
+                this.filter.oblastid,
+                this.filter.regionid,
+                this.filter.organizationid,
+                this.filter.schoolyearid
+            ).then((res) => {
+                this.Loading = false;
+                this.items = res.data.data;
+                this.totalRows = res.data.total;
+                this.filter.oblastid = res.data.oblastid;
+                if (res.data.oblastid > 0)
+                    this.filter.oblastname = " / " + res.data.oblastname;
+                this.filter.regionid = res.data.regionid;
+                if (res.data.regionid > 0)
+                    this.filter.regionname = " / " + res.data.regionname;
+                if (this.filter.bycolor == true) {
+                    this.items.sort(function (a, b) {
+                        return a.fillcoef - b.fillcoef;
+                    });
+                }
+                this.bottomrow = {
+                    athleticachievementcount: 0,
+                    sportsmencount: 0,
+                };
+                this.calculateTotal(this.items);
+            });
+        },
+        calculateTotal(item) {
+            var athleticachievementcount = 0;
+            var sportsmencount = 0;
+            item.forEach(function (item) {
+                athleticachievementcount = athleticachievementcount + item.athleticachievementcount;
+                sportsmencount = sportsmencount + item.sportsmencount;
+
+            });
+            this.bottomrow = {
+                athleticachievementcount: athleticachievementcount,
+                sportsmencount: sportsmencount,
+            };
+        },
+        makeToast(message, title, type) {
+            this.$bvToast.toast(message, {
+                title: title,
+                autoHideDelay: 2000,
+                variant: type,
+                solid: true,
+            });
+        },
+        ChangeSort(columnName) {
+            this.filter.Sort = columnName;
+            if (this.filter.order == "asc") {
+                this.filter.SortIcon = "arrow-down";
+                this.filter.order = "desc";
+            } else {
+                this.filter.SortIcon = "arrow-up";
+                this.filter.order = "asc";
+            }
+            this.Refresh();
+        },
+        topcountrychange() {
+            this.filter.oblastid = 0;
+            this.filter.educationlanguageid = 0;
+            this.filter.OblastName = "";
+            this.filter.RegionName = "";
+        },
+        topoblastchange() {
+            this.filter.regionid = 0;
+            this.filter.RegionName = "";
+        },
+        oblastchange(item) {
+            console.log(item);
+            this.filter.oblastid = item.oblastid;
+            this.filter.OblastName = " / " + item.oblastname;
+            console.log(this.filter.oblastid);
+            this.Refresh();
+        },
+        regionchange(item) {
+            this.filter.regionid = item.regionid;
+            this.filter.schoolsubjectid = item.schoolsubjectid;
+            this.filter.schoolgradegroupid = item.schoolgradegroupid;
+            this.filter.RegionName = " / " + item.regionname;
+            this.Refresh();
+        },
+    },
+    watch: {
+        "filter.oblastid": {
+            handler(newValue, oldValue) {
+                if (newValue) {
+                    this.items = [];
+                    this.bottomrow = {
+                        athleticachievementcount: 0,
+                        sportsmencount: 0,
+                    };
+                    this.filter.regionid = 0;
+                }
+                this.Refresh();
+            },
+        },
+        "filter.regionid": {
+            handler(newValue, oldValue) {
+                if (newValue) {
+                    this.items = [];
+                    this.bottomrow = {
+                        athleticachievementcount: 0,
+                        sportsmencount: 0,
+                    };
+                }
+                this.Refresh();
+            },
+        },
+        "filter.PageNumber": {
+            handler(newValue, oldValue) {
+                if (newValue) {
+                    this.Refresh();
+                }
+            },
+        },
+        "filter.PageLimit": {
+            handler(newValue, oldValue) {
+                if (newValue) {
+                    this.Refresh();
+                }
+            },
+        },
+    },
+};
+</script>
+  
+<style></style>
+  

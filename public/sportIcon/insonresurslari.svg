@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+  <g id="icon" transform="translate(-92 -80)">
+    <g id="Эллипс_92" data-name="Эллипс 92" transform="translate(92 80)" fill="none" stroke="#4d4f52" stroke-width="1">
+      <circle cx="3" cy="3" r="3" stroke="none"/>
+      <circle cx="3" cy="3" r="2.5" fill="none"/>
+    </g>
+    <g id="Эллипс_93" data-name="Эллипс 93" transform="translate(92 88)" fill="none" stroke="#4d4f52" stroke-width="1">
+      <circle cx="3" cy="3" r="3" stroke="none"/>
+      <circle cx="3" cy="3" r="2.5" fill="none"/>
+    </g>
+    <g id="Эллипс_94" data-name="Эллипс 94" transform="translate(100 80)" fill="none" stroke="#4d4f52" stroke-width="1">
+      <circle cx="3" cy="3" r="3" stroke="none"/>
+      <circle cx="3" cy="3" r="2.5" fill="none"/>
+    </g>
+    <g id="Эллипс_95" data-name="Эллипс 95" transform="translate(100 88)" fill="none" stroke="#4d4f52" stroke-width="1">
+      <circle cx="3" cy="3" r="3" stroke="none"/>
+      <circle cx="3" cy="3" r="2.5" fill="none"/>
+    </g>
+  </g>
+</svg>
